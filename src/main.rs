@@ -15,4 +15,25 @@ fn main() {
     let mut reader2 = hasher2.finalize_xof();
     reader2.read(&mut result);
     println!("cshake output = {}", hex::encode(result));
+
+    let mut b1: [u8; 9] = [0u8; 9];
+    let mut b2: [u8; 9] = [0u8; 9];
+    let lencode = left_encode(450000, &mut b1);
+    let rencode = right_encode(450000, &mut b2);
+    println!("left encoding = {}", hex::encode(lencode));
+    println!("left encoding = {}", hex::encode(rencode));
+}
+
+fn left_encode(val: u64, b: &mut [u8; 9]) -> &[u8] {
+    b[1..].copy_from_slice(&val.to_be_bytes());
+    let i = b[1..8].iter().take_while(|&&a| a == 0).count();
+    b[i] = (8 - i) as u8;
+    &b[i..]
+}
+
+fn right_encode(val: u64, b: &mut [u8; 9]) -> &[u8] {
+    b[..8].copy_from_slice(&val.to_be_bytes());
+    let i = b[0..8].iter().take_while(|&&a| a == 0).count();
+    b[8] = (8 - i) as u8;
+    &b[i..]
 }
