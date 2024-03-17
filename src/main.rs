@@ -37,3 +37,26 @@ fn right_encode(val: u64, b: &mut [u8; 9]) -> &[u8] {
     b[8] = (8 - i) as u8;
     &b[i..]
 }
+
+pub struct ParallelHash {
+    state: CShake128,
+    blocks: usize,
+    block_size: usize,
+    is_unfinshed: bool,
+}
+
+impl ParallelHash {
+
+    fn new(custom_string: &[u8], block_size: usize) -> ParallelHash {
+        let mut state = CShake128::from_core(CShake128Core::new_with_function_name(b"ParallelHash", custom_string));
+        let mut enc_block_size = [0u8; 9];
+        state.update(left_encode(block_size as u64, &mut enc_block_size));
+        ParallelHash {
+            state,
+            block_size,
+            blocks: 0,
+            is_unfinshed: false,
+        }
+    }
+    
+}
