@@ -58,5 +58,14 @@ impl ParallelHash {
             is_unfinshed: false,
         }
     }
-    
+
 }
+
+pub trait Hasher {
+    /// Absorb additional input. Can be called multiple times.
+    fn update(&mut self, input: &[u8]);
+
+    /// Pad and squeeze the state to the output.
+    fn finalize(self, output: &mut [u8]);
+}
+
