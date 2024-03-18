@@ -5,7 +5,8 @@ version = "0.1.0"
 edition = "2021"
 description = "A specification for half-aggregation"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+path = "src/parallel_hash.rs"
 
 [dependencies]
 hex = "0.4.3"
