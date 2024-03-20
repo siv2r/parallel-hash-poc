@@ -26,12 +26,14 @@ fn finalize(self, output: &mut [u8]);
 
 ## Example
 ```rust
-    let mut digest = [0u8; 32];
-    let block_size = 5;
-    let mut hasher = ParallelHash::new(block_size);
-    hasher.update(b"msg to hash");
-    hasher.finalize(&mut digest);
-    println!("Hash Digest: {}", hex::encode(digest));
+use parallel_hash_poc::{ParallelHash, utils::Hasher};
+
+let mut digest = [0u8; 32];
+let block_size = 5;
+let mut hasher = ParallelHash::new(block_size);
+hasher.update(b"msg to hash");
+hasher.finalize(&mut digest);
+println!("Hash Digest: {}", hex::encode(digest));
 ```
 
 ## Build Instructions
